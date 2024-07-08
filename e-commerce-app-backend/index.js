@@ -171,7 +171,6 @@ app.post('/product/addToCart',authenticationToken, async (req, res) => {
             cart.items.push({ productId, quantity, name, price, image });
         }
 
-        console.log(product.price)
         cart.totalPrice += product.price * quantity;
 
         await cart.save();
@@ -183,6 +182,53 @@ app.post('/product/addToCart',authenticationToken, async (req, res) => {
     }
 
 });
+
+app.delete('/product/removeFromCart/:productId',authenticationToken,async (req, res)=>{
+    const userId = req.user._id;
+    const productId = req.params.productId;
+    try{
+        const cart = await Cart.findOne({userId});
+        if(!cart) {
+            return res.status(404).json({ error: true, message: 'Cart not found' });
+        }
+
+        cart.items = cart.items.filter((item) =>{
+            return item.productId.toString() !== productId.toString()
+        })
+
+        cart.totalPrice = cart.items.reduce((total,item) => total + (item.price * item.quantity),0);
+        await cart.save();
+        res.json({
+            error:false,
+            message: 'Cart found and Deleted Item'
+        })
+    }catch(error){
+        console.error('Error removing product from cart:', error);
+        res.status(500).json({ error: 'Failed to remove product from cart' });
+    }
+})
+
+app.delete('/product/clearCart',authenticationToken,async (req, res)=>{
+    const userId = req.user._id;
+    try{
+        const cart = await Cart.findOne({userId});
+        if(!cart) {
+            return res.status(404).json({ error: true, message: 'Cart not found' });
+        }
+
+        cart.items = [];
+
+        cart.totalPrice = cart.items.reduce((total,item) => total + (item.price * item.quantity),0);
+        await cart.save();
+        res.json({
+            error:false,
+            message: 'Cart found and Cleared successfully'
+        })
+    }catch(error){
+        console.error('Error clearing cart:', error);
+        res.status(500).json({ error: 'Failed to Clear Cart' });
+    }
+})
 
 app.get('/getCart',authenticationToken, async(req, res) => {
     const userId = req.user._id;
