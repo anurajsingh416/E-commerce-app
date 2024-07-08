@@ -102,7 +102,7 @@ function Register(){
                             name="password"
                             onChange={handleChange}
                             value={formData.password}
-                            placeholder="abc@1234"
+                            placeholder="123456"
                             className="w-full mt-1 text-md font-semibold p-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
                         />
                         <span
