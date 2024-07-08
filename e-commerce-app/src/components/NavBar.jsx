@@ -6,7 +6,7 @@ import { useAuth } from "../context/authContext";
 export default function NavBar() {
     const [pageType, setPageType] = useState("");
     const location = useLocation();
-    const { isLoggedIn, logout } = useAuth();
+    const { isLoggedIn, logout, openCart } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -29,14 +29,16 @@ export default function NavBar() {
         <nav className="px-8 flex w-full  justify-between items-center font text-sm font-semibold text-gray-600">
             <img className="w-48" src="/SoleStudioLogo2.png" alt="" srcset="" />
             
-            <div className="flex flex-grow space-x-4 items-center py-2 px-3 border-2 border-gray-300">
+            {/* <div className="flex flex-grow space-x-4 items-center py-2 px-3 border-2 border-gray-300">
                 <HiOutlineSearch className="" />
                 <input type="search" className="outline-none  lg:flex" name="" id="" placeholder="Search Product..." />
-            </div>
+            </div> */}
             <ul className="px-6 flex space-x-6 justify-between items-center">
                 <li>
-                    <button>
-                        <Link to="/cart"><IoCartOutline size={32} /></Link>
+                    <button onClick={()=>{
+                        openCart();
+                    }}>
+                        <IoCartOutline size={32} />
                     </button>
                 </li>
                 {!isLoggedIn ?
@@ -54,7 +56,7 @@ export default function NavBar() {
             }
             </ul>
         </nav>
-        <nav className="mt-6 hidden lg:block ">
+        <nav className="my-4 hidden md:block lg:block ">
             <ul className="flex justify-center space-x-6 text-gray-600 ">
                 <li>
                     <Link to="/" className="hover:text-black duration-300 transition-colors ease-in-out font-semibold">Home</Link>
@@ -70,7 +72,7 @@ export default function NavBar() {
                 </li>
             </ul>
         </nav>
-        <nav className="mt-6 lg:hidden p-4 z-10 space-x-6 fixed bottom-0 left-0 w-full bg-white shadow-lg">
+        <nav className="mt-6 md:hidden lg:hidden p-4 z-10 space-x-6 fixed bottom-0 left-0 w-full bg-white shadow-lg">
             <ul className="flex justify-center space-x-6 text-gray-600 ">
                 <li>
                     <Link to="/" className="hover:text-black duration-300 transition-colors ease-in-out font-semibold">Home</Link>

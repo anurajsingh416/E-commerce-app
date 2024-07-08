@@ -3,7 +3,6 @@ import axiosInstance from '../utils/axiosInstance';
 import { validate } from '../utils/validate';
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import { Link, useNavigate } from 'react-router-dom';
-import NavBar from '../components/NavBar';
 import { useAuth } from '../context/authContext';
 function Login() {
     const [formData, setFormData] = useState({
@@ -67,7 +66,6 @@ function Login() {
     }
     return (
         <>
-            <NavBar />
             <div className='mx-auto w-full max-w-md shadow-md bg-white rounded-lg justify-center'>
                 <form
                     className='space-y-6 p-4 border-2'

@@ -1,6 +1,7 @@
 import axios from "axios"
 const axiosInstance = axios.create({
-    baseURL: 'e-commerce-app-backend-beta.vercel.app',
+    baseURL: 'https://e-commerce-app-backend-beta.vercel.app/',
+    // baseURL: 'http://localhost:3000/',
     timeout: 10000,
     headers: {
         "Content-Type":"application/json"
