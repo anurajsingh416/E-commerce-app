@@ -1,0 +1,15 @@
+{
+  "name": "e-commerce",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "install-server": "cd e-commerce-app-backend && npm install",
+    "start-server": "cd e-commerce-app-backend && npm start",
+    "install-client": "cd e-commerce-app && npm install",
+    "build-client": "cd e-commerce-app && npm run build",
+    "start-client": "cd e-commerce-app && npm run dev"
+  },
+  "author": "",
+  "license": "ISC"
+}
