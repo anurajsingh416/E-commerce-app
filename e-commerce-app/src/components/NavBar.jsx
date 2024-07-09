@@ -33,7 +33,7 @@ export default function NavBar() {
                 <HiOutlineSearch className="" />
                 <input type="search" className="outline-none  lg:flex" name="" id="" placeholder="Search Product..." />
             </div> */}
-            <ul className="px-6 flex space-x-6 items-center">
+            <ul className="px-6 flex space-x-4 items-center">
                 <li>
                     <button onClick={()=>{
                         isLoggedIn? openCart():alert("Login Required")

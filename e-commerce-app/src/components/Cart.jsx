@@ -1,6 +1,7 @@
 import axiosInstance from "../utils/axiosInstance";
 import { useState, useEffect } from 'react';
 import { useAuth } from "../context/authContext";
+import { Link } from "react-router-dom";
 export default function Cart() {
     // const [cartItems, setCartItems] = useState([]);
     // const [totalPrice, setTotalPrice] = useState(0);
@@ -69,9 +70,12 @@ export default function Cart() {
                 <ul className="max-h-[calc(100vh-200px)] overflow-y-auto">
                     {cartItems.map(item => (
                         <li key={item.productId} className="flex items-center p-4 shadow-md">
-                            <div className="w-24 h-24 flex-shrink-0">
+                            <Link to={`/product/${item.productId}`} onClick={()=>{
+                                closeCart();
+                            }}><div className="w-24 h-24 flex-shrink-0">
                                 <img src={item.image} alt="image" className="w-full max-h-24 object-cover rounded" />
                             </div>
+                            </Link>
                             <div className="ml-4 flex-grow">
                                 <h3 className="text-gray-800 mb-2">{item.name}</h3>
                                 <div className="flex justify-between w-full">
