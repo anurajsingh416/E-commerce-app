@@ -1,27 +1,20 @@
 {
     "version": 2,
-    
+
     "builds": [
         {
-            "src": "e-commerce-app-backend/index.js",
+            "src": "/index.js",
             "use": "@vercel/node"
-        },
-        {
-            "src": "e-commerce-app/package.json",
-            "use": "@vercel/static-build",
-            "config": {
-                "distDir": "e-commerce-app/build"
-            }
         }
     ],
     "routes": [
         {
-            "src": "/api/(.*)",
-            "dest": "e-commerce-app-backend/index.js"
+            "src": "/(.*)",
+            "dest": "/index.js"
         },
         {
             "src": "/(.*)",
-            "dest": "e-commerce-app-backend/index.js"
+            "dest": "/index.js"
         }
     ]
 }
