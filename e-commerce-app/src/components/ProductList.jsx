@@ -47,7 +47,7 @@ export default function ProductList() {
     }
     return (
         <div className={`w-screen mt-10 ${isCartOpen && "fixed"}`}>
-            <div className={`mx-auto w-full lg:w-full px-8 grid   ${productPage ? "grid-cols-3 lg:grid-cols-5" : "grid-cols-2 lg:grid-cols-3"} gap-6 place-items-center `}>
+            <div className={`mx-auto w-full lg:w-full px-8 grid   ${productPage ? "grid-cols-2 lg:grid-cols-5" : "grid-cols-2 lg:grid-cols-3"} gap-6 place-items-center `}>
                 {products.map((product, index) => (
                     
                     <div key={index} className='max-w-68 p-4 bg-gray-200 flex flex-col justify-between group transition-all'>
