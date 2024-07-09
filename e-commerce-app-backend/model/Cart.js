@@ -22,6 +22,38 @@ const cartItemSchema = new mongoose.Schema({
     image:{
         type: String,
         required: true
+    },
+    isAdded:{
+        type: Boolean,
+        default: true
+    }
+}, { _id: false });
+const wishListSchema = new mongoose.Schema({
+    productId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
+        required: true
+    },
+    quantity: {
+        type: Number,
+        required: true,
+        min: [1, 'Quantity can not be less then 1.']
+    },
+    name:{
+        type: String,
+        required: true
+    },
+    price:{
+        type: Number,
+        required: true
+    },
+    image:{
+        type: String,
+        required: true
+    },
+    isAdded:{
+        type: Boolean,
+        default: true
     }
 }, { _id: false });
 
@@ -32,6 +64,7 @@ const cartSchema = new mongoose.Schema({
         required: true
     },
     items: [cartItemSchema],
+    wishlist:[wishListSchema],
     totalPrice: {
         type: Number,
         required: true,

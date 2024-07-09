@@ -6,7 +6,7 @@ import { useAuth } from "../context/authContext";
 export default function NavBar() {
     const [pageType, setPageType] = useState("");
     const location = useLocation();
-    const { isLoggedIn, logout, openCart } = useAuth();
+    const { isLoggedIn, logout, openCart, cartItems } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -26,28 +26,31 @@ export default function NavBar() {
     }
     return (
         <>
-        <nav className="px-8 flex w-full  justify-between items-center font text-sm font-semibold text-gray-600">
+        <nav className="px-0 flex w-full  justify-between items-center font text-sm font-semibold text-gray-600">
             <img className="w-48" src="/SoleStudioLogo2.png" alt="" srcset="" />
             
             {/* <div className="flex flex-grow space-x-4 items-center py-2 px-3 border-2 border-gray-300">
                 <HiOutlineSearch className="" />
                 <input type="search" className="outline-none  lg:flex" name="" id="" placeholder="Search Product..." />
             </div> */}
-            <ul className="px-6 flex space-x-6 justify-between items-center">
+            <ul className="px-6 flex space-x-6 items-center">
                 <li>
                     <button onClick={()=>{
-                        openCart();
-                    }}>
+                        isLoggedIn? openCart():alert("Login Required")
+                    }} className="relative">
                         <IoCartOutline size={32} />
+                        {(cartItems.length>0) &&
+                        <span className="absolute -top-1 -right-1 h-4 w-4 bg-orange-600 rounded-full">{cartItems.length}</span>
+                        }
                     </button>
                 </li>
                 {!isLoggedIn ?
-                    <li className="space-x-2 text-xs  lg:block">
+                    <li className="space-x-2  text-xs flex  lg:block">
                         {pageType !== "register" && (
-                            <button><Link to="/register" className="p-3 bg-black text-white">Sign Up</Link></button>
+                            <Link to="/register" className="p-3  bg-black text-white"><button className="">Register</button></Link>
                         )}
                         {pageType !== "login" && (
-                            <button><Link to="/login" className="p-3 border-2 bg-gray-200 hover:bg-white">Sign In</Link></button>
+                            <Link to="/login" className="p-3  border-2 bg-gray-200 hover:bg-white"><button className="">Login</button></Link>
                         )}
                     </li>
                 :<li className=" text-xs lg:block">
@@ -72,7 +75,7 @@ export default function NavBar() {
                 </li>
             </ul>
         </nav>
-        <nav className="mt-6 md:hidden lg:hidden p-4 z-10 space-x-6 fixed bottom-0 left-0 w-full bg-white shadow-lg">
+        <nav className="mt-6 md:hidden lg:hidden p-4 z-50 space-x-6 fixed bottom-0 left-0 w-full bg-white shadow-lg">
             <ul className="flex justify-center space-x-6 text-gray-600 ">
                 <li>
                     <Link to="/" className="hover:text-black duration-300 transition-colors ease-in-out font-semibold">Home</Link>

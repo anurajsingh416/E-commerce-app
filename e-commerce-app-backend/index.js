@@ -174,6 +174,7 @@ app.post('/product/addToCart',authenticationToken, async (req, res) => {
         cart.totalPrice += product.price * quantity;
 
         await cart.save();
+        console.log(cart)
 
         res.json({ message: 'Product added to cart successfully', cart });
     } catch (error) {

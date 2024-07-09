@@ -52,7 +52,7 @@ export default function Cart() {
 
     return (
         <>
-            <div className={`${!isCartOpen ? "hidden" : "block"} z-50 overflow-x-hidden p-6 fixed top-0 right-0 h-screen w-full md:w-2/4 lg:w-2/4 bg-gray-100`}>
+            <div className={`${!isCartOpen ? "hidden" : "block"} z-30 overflow-x-hidden p-6 fixed top-0 right-0 h-screen w-full md:w-2/4 lg:w-2/4 bg-gray-100`}>
 
                 <div className="flex justify-between">
                     <h2 className="text-xl font-semibold text-gray-700">Shopping Cart</h2>
@@ -66,7 +66,7 @@ export default function Cart() {
                     </div>
                 </div>
 
-                <ul>
+                <ul className="max-h-[calc(100vh-200px)] overflow-y-auto">
                     {cartItems.map(item => (
                         <li key={item.productId} className="flex items-center p-4 shadow-md">
                             <div className="w-24 h-24 flex-shrink-0">
@@ -83,7 +83,7 @@ export default function Cart() {
                         </li>
                     ))}
                 </ul>
-                <div className="flex absolute  justify-between bottom-0 left-0 right-0 items-center p-4 bg-gray-100 border-t border-gray-300 shadow-md">
+                <div className="flex absolute  justify-between bottom-16 md:bottom-0 lg:bottom-0 left-0 right-0 items-center p-4 bg-gray-100 border-t border-gray-300 shadow-md">
                     <p className="text-sm px-4">Total Price: <br /> <span className="text-xl font-semibold">&#8377; {totalPrice}.00</span></p>
                     <button className="px-4 py-2 font-semibold hover:bg-gray-700 transition duration-200 bg-gray-900 text-white">Check Out</button>
                 </div>

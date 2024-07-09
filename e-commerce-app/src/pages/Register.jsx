@@ -66,7 +66,7 @@ function Register(){
     }
     return (
         <>
-            <div className='mx-auto w-full max-w-md shadow-md bg-white rounded-lg justify-center'>
+            <div className='mx-auto mt-10 w-full max-w-md shadow-md bg-white rounded-lg justify-center'>
                 <form
                     className='space-y-6 p-4 border-2'
                     onSubmit={handleSubmit}
