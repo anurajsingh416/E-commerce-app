@@ -51,6 +51,12 @@ function Login() {
             }
 
             if(response.data && response.data.accessToken){
+                
+                console.log("user",response.data.ExistingUser.name)
+                console.log("user",response.data.ExistingUser.email)
+
+                localStorage.setItem("name",response.data.ExistingUser.name );
+                localStorage.setItem("email",response.data.ExistingUser.email );
                 localStorage.setItem("token", response.data.accessToken);
                 login();
                 navigate("/");

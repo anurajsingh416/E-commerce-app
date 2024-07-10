@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export default function Cart() {
     // const [cartItems, setCartItems] = useState([]);
     // const [totalPrice, setTotalPrice] = useState(0);
-    const { isCartOpen, closeCart, fetchCartItems,cartItems,totalPrice } = useAuth();
+    const { isCartOpen, closeCart, fetchCartItems,cartItems,totalPrice,addToCart,removeFromCart } = useAuth();
 
 
     // const fetchCartItems = async () => {
@@ -26,18 +26,18 @@ export default function Cart() {
 
     
 
-    const removeFromCart = async (productId) => {
-        try{
-            const response = await axiosInstance.delete(`/product/removeFromCart/${productId}`)
-            if (response.data && response.data.message) {
-                console.log(response.data.message);
-                // After successful removal, fetch updated cart items
-                fetchCartItems();
-            }
-        } catch (error) {
-            console.error('Error removing item from cart:', error.response);
-        }
-    }
+    // const removeFromCart = async (productId) => {
+    //     try{
+    //         const response = await axiosInstance.delete(`/product/removeFromCart/${productId}`)
+    //         if (response.data && response.data.message) {
+    //             console.log(response.data.message);
+    //             // After successful removal, fetch updated cart items
+    //             fetchCartItems();
+    //         }
+    //     } catch (error) {
+    //         console.error('Error removing item from cart:', error.response);
+    //     }
+    // }
     const clearCart = async () => {
         try{
             const response = await axiosInstance.delete(`/product/clearCart`)
@@ -79,9 +79,10 @@ export default function Cart() {
                             <div className="ml-4 flex-grow">
                                 <h3 className="text-gray-800 mb-2">{item.name}</h3>
                                 <div className="flex justify-between w-full">
-                                    <p className="text-gray-600 text-sm"><p>Quantity</p> {item.quantity}</p>
+                                <div className="text-lg mt-2 flex border-2 w-16 justify-evenly space-x-2 items-center"> <button className="bg-gray-600 text-white w-8" onClick={() => { removeFromCart(item.productId); fetchCartItems(); }}>-</button><span>{item.quantity}</span><button className="bg-gray-600 text-white w-8" onClick={() => { addToCart(item.productId,1); fetchCartItems(); }}>+</button></div>
+                                    {/* <p className="text-gray-600 text-sm"><p>Quantity</p> {item.quantity}</p> */}
                                     <p className="text-gray-600 text-sm"><p>Price</p>&#8377; {item.price}</p>
-                                    <button className="bg-red-100 p-2 hover:bg-red-300 transition duration-200" onClick={() => removeFromCart(item.productId)}>Remove</button>
+                                    <button className="bg-red-100 p-2 hover:bg-red-300 transition duration-200" onClick={() => {removeFromCart(item.productId); fetchCartItems();}}>Remove</button>
                                 </div>
                             </div>
                         </li>
@@ -89,7 +90,7 @@ export default function Cart() {
                 </ul>
                 <div className="flex absolute  justify-between bottom-16 md:bottom-0 lg:bottom-0 left-0 right-0 items-center p-4 bg-gray-100 border-t border-gray-300 shadow-md">
                     <p className="text-sm px-4">Total Price: <br /> <span className="text-xl font-semibold">&#8377; {totalPrice}.00</span></p>
-                    <button className="px-4 py-2 font-semibold hover:bg-gray-700 transition duration-200 bg-gray-900 text-white">Check Out</button>
+                    <button className="px-4 py-2 font-semibold hover:bg-gray-700 transition duration-200 bg-gray-900 text-white" onClick={()=>{alert("Not Ready Yet")}} >Check Out</button>
                 </div>
             </div>
 

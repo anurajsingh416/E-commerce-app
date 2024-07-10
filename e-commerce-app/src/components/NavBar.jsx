@@ -1,12 +1,13 @@
 import { HiOutlineSearch } from "react-icons/hi";
 import { IoCartOutline } from "react-icons/io5";
 import { useState, useEffect } from 'react';
+import Message from "./Message";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from "../context/authContext";
 export default function NavBar() {
     const [pageType, setPageType] = useState("");
     const location = useLocation();
-    const { isLoggedIn, logout, openCart, cartItems } = useAuth();
+    const { isLoggedIn, logout, openCart, cartItems,isAccountOpen,openAccount,closeAccount,setCloseFunc } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -22,6 +23,7 @@ export default function NavBar() {
     function handleLogout(){
         localStorage.clear();
         logout();
+        window.location.reload();
         navigate("/");
     }
     return (
@@ -36,12 +38,14 @@ export default function NavBar() {
             <ul className="mr-8 flex space-x-4 items-center">
                 <li>
                     <button onClick={()=>{
-                        isLoggedIn? openCart():alert("Login Required")
+                        setCloseFunc();
+                        isLoggedIn? openCart():<Message />
                     }} className="relative">
                         <IoCartOutline size={32} />
                         {(cartItems.length>0) &&
                         <span className="absolute -top-1 -right-1 h-4 w-4 bg-orange-600 rounded-full">{cartItems.length}</span>
                         }
+                        <Message />
                     </button>
                 </li>
                 {!isLoggedIn ?
@@ -62,16 +66,16 @@ export default function NavBar() {
         <nav className="my-4 hidden md:block lg:block ">
             <ul className="flex justify-center space-x-6 text-gray-600 ">
                 <li>
-                    <Link to="/" className="hover:text-black duration-300 transition-colors ease-in-out font-semibold">Home</Link>
+                    <Link to="/" className={`${(location.pathname==="/")?"text-black border-b-2 ":"text-gray-600"}  hover:text-black border-black duration-300 transition-colors ease-in-out font-semibold`}>Home</Link>
                 </li>
                 <li>
-                    <Link to="/products" className="hover:text-black duration-300 transition-colors ease-in-out font-semibold">Shop</Link>
+                    <Link to="/products" className={`${(location.pathname==="/products")?"text-black border-b-2 ":"text-gray-600"}hover:text-black border-black duration-300 transition-colors ease-in-out font-semibold`}>Shop</Link>
                 </li>
                 <li>
                     <Link to="" className="hover:text-black duration-300 transition-colors ease-in-out font-semibold">Featured</Link>
                 </li>
                 <li>
-                    <Link to="" className="hover:text-black duration-300 transition-colors ease-in-out font-semibold">My Account</Link>
+                    <Link to="" className="hover:text-black duration-300 transition-colors ease-in-out font-semibold" onClick={()=>{isAccountOpen?closeAccount():openAccount()}}>My Account</Link>
                 </li>
             </ul>
         </nav>
@@ -87,7 +91,7 @@ export default function NavBar() {
                     <Link to="" className="hover:text-black duration-300 transition-colors ease-in-out font-semibold">Featured</Link>
                 </li>
                 <li>
-                    <Link to="" className="hover:text-black duration-300 transition-colors ease-in-out font-semibold">My Account</Link>
+                    <Link to="" className="hover:text-black duration-300 transition-colors ease-in-out font-semibold" onClick={()=>{isAccountOpen?closeAccount():openAccount()}}>My Account</Link>
                 </li>
             </ul>
         </nav>

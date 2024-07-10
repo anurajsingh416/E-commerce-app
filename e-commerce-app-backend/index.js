@@ -140,10 +140,10 @@ app.get("/getProduct/:id", async (req, res) => {
     }
 })
 
-app.post('/product/addToCart',authenticationToken, async (req, res) => {
+app.post('/product/addToCart', authenticationToken, async (req, res) => {
     try {
         const userId = req.user._id;
-        const { productId, quantity } = req.body;   
+        const { productId, quantity } = req.body;
         if (!productId) {
             return res.status(400).json({ error: 'ProductId is required' });
         }
@@ -184,65 +184,78 @@ app.post('/product/addToCart',authenticationToken, async (req, res) => {
 
 });
 
-app.delete('/product/removeFromCart/:productId',authenticationToken,async (req, res)=>{
+app.delete('/product/removeFromCart/:productId', authenticationToken, async (req, res) => {
     const userId = req.user._id;
     const productId = req.params.productId;
-    try{
-        const cart = await Cart.findOne({userId});
-        if(!cart) {
+    try {
+        const cart = await Cart.findOne({ userId });
+        if (!cart) {
             return res.status(404).json({ error: true, message: 'Cart not found' });
         }
 
-        cart.items = cart.items.filter((item) =>{
-            return item.productId.toString() !== productId.toString()
-        })
+        const itemToRemove = cart.items.find(item => item.productId.toString() === productId.toString());
+        console.log(itemToRemove);
 
-        cart.totalPrice = cart.items.reduce((total,item) => total + (item.price * item.quantity),0);
+        if (!itemToRemove) {
+            return res.status(404).json({ error: true, message: 'Item not found in cart' });
+        }
+
+        if (itemToRemove.quantity > 1) {
+            itemToRemove.quantity -= 1;
+        } else {
+            cart.items = cart.items.filter((item) => {
+                return item.productId.toString() !== productId.toString()
+            })
+        }
+
+        cart.totalPrice = cart.items.reduce((total, item) => total + (item.price * item.quantity), 0);
         await cart.save();
+        console.log(cart)
         res.json({
-            error:false,
+            cart,
+            error: false,
             message: 'Cart found and Deleted Item'
         })
-    }catch(error){
+    } catch (error) {
         console.error('Error removing product from cart:', error);
         res.status(500).json({ error: 'Failed to remove product from cart' });
     }
 })
 
-app.delete('/product/clearCart',authenticationToken,async (req, res)=>{
+app.delete('/product/clearCart', authenticationToken, async (req, res) => {
     const userId = req.user._id;
-    try{
-        const cart = await Cart.findOne({userId});
-        if(!cart) {
+    try {
+        const cart = await Cart.findOne({ userId });
+        if (!cart) {
             return res.status(404).json({ error: true, message: 'Cart not found' });
         }
 
         cart.items = [];
 
-        cart.totalPrice = cart.items.reduce((total,item) => total + (item.price * item.quantity),0);
+        cart.totalPrice = cart.items.reduce((total, item) => total + (item.price * item.quantity), 0);
         await cart.save();
         res.json({
-            error:false,
+            error: false,
             message: 'Cart found and Cleared successfully'
         })
-    }catch(error){
+    } catch (error) {
         console.error('Error clearing cart:', error);
         res.status(500).json({ error: 'Failed to Clear Cart' });
     }
 })
 
-app.get('/getCart',authenticationToken, async(req, res) => {
+app.get('/getCart', authenticationToken, async (req, res) => {
     const userId = req.user._id;
 
-    try{
-        const cart = await Cart.findOne({userId});
-        if(!cart){
+    try {
+        const cart = await Cart.findOne({ userId });
+        if (!cart) {
             return res.status(404).json({ message: 'Cart not found' });
         }
         const items = cart.items;
         const totalPrice = cart.totalPrice;
-        res.status(200).json({ message: 'Cart Found',items,totalPrice });
-    }catch (error) {
+        res.status(200).json({ message: 'Cart Found', items, totalPrice });
+    } catch (error) {
 
     }
 })

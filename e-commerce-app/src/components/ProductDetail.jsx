@@ -7,10 +7,11 @@ import Cart from "./Cart";
 import { useAuth } from "../context/authContext";
 export default function ProductDetail() {
     const { id } = useParams();
-    const { openCart, addToCart, addedProductIds } = useAuth();
+    const { openCart, addToCart, addedProductIds,removeFromCart } = useAuth();
     const [product, setProduct] = useState(null);
     const [count, setCount] = useState(1);
     const [loading, setLoading] = useState(false);
+
     useEffect(() => {
         const getProduct = async () => {
             try {
@@ -27,10 +28,9 @@ export default function ProductDetail() {
     }, [id]);
 
     async function handleCart(productId, quantity) {
-        setLoading(true);
+        setLoading(!loading);
         await addToCart(productId, quantity);
-        setAdded(true);
-        setLoading(false);
+        setLoading(!loading);
     }
 
     return (
@@ -53,7 +53,8 @@ export default function ProductDetail() {
                             {!addedProductIds.includes(id) ?
                                 <button onClick={() => { handleCart(id, count) }} className='mt-8 transform bg-gray-900 text-white py-2 px-4 opacity-85 group-hover:opacity-100 transition-all duration-500'>{loading ? 'Adding...' : 'Add To Cart'}</button>
                                 :
-                                <button onClick={() => { openCart() }} className='mt-8 transform bg-gray-900 text-white py-2 px-4 opacity-85 group-hover:opacity-100 transition-all duration-500'>Go to Cart</button>
+                                <div className="space-x-2">
+                                <button onClick={() => { openCart() }} className='mt-8 transform bg-white text-gray-800 border border-gray-800 hover:bg-gray-300 py-2 px-4 opacity-85 group-hover:opacity-100 transition-all duration-500'>Go to Cart</button></div>
                             }
                         </div>
                         {/* Additional product details */}
