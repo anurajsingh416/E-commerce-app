@@ -38,7 +38,7 @@ export default function NavBar() {
             <ul className="mr-8 flex space-x-4 items-center">
                 <li>
                     <button onClick={()=>{
-                        setCloseFunc();
+                        !isLoggedIn && setCloseFunc();
                         isLoggedIn? openCart():<Message />
                     }} className="relative">
                         <IoCartOutline size={32} />
